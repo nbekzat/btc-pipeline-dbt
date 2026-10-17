@@ -1,0 +1,14 @@
+version: 2
+
+sources:
+  - name: btc_raw
+    database: BTC
+    schema: BTC_SCHEMA
+    tables:
+      - name: BTC
+        config:
+          loaded_at_field: BLOCK_TIMESTAMP
+          freshness:  # check the freshness of data in BTC table
+            warn_after: # if the time difference from Now and column block_timestamp is more than 1 hour
+              {count: 1 ,  period: hour} # give a warn 
+      - name: btc_usd_max     
