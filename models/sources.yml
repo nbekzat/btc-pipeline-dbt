@@ -1,11 +1,11 @@
 version: 2
 
 sources:
-  - name: btc_raw
+  - name: btc
     database: BTC
     schema: BTC_SCHEMA
     tables:
-      - name: BTC
+      - name: BTC_RAW
         config:
           loaded_at_field: BLOCK_TIMESTAMP
           freshness:  # check the freshness of data in BTC table

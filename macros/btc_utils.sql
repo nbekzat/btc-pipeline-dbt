@@ -4,9 +4,9 @@
 (select 
     CLOSE_PRICE_USD 
 
-    from {{ ref("btc_usd_max") }}
+    from {{ ref("btc_price_dict") }}
 
-    where to_date(replace(event_date, 'UTC', '')) = current_date() - 1
+    where event_date = to_date('2026-10-16 00:00:00')
 )
 
 {% endmacro %}
