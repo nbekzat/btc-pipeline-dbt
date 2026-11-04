@@ -6,7 +6,7 @@
 
 select 
     * 
-from {{ source('btc_raw', 'BTC')}}
+from {{ source('btc', 'BTC_RAW') }}
 
 {% if is_incremental() %}
 

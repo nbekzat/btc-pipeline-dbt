@@ -7,3 +7,44 @@ models:
         tests:
           - unique
           - not_null
+
+  - name: stg_btc_output 
+    tests: 
+      - dbt_utils.equal_rowcount:
+          compare_model: ref('stg_btc_output')
+
+  - name: whale_alert
+    latest_version: 2
+    description: "This model contains the list of whale addresses that have sent more than 10 BTC in total."
+    config:
+      contract:
+        enforced: true # model should have columns and data_type defined, as follows:
+    columns: 
+      - name: trx_count
+        data_type: int
+      - name: total_sent
+        data_type: float
+      - name: total_sent_usd
+        data_type: float
+        description: "The total amount of BTC sent by the whale address in USD."  
+        data_tests:
+          - assert_less_than_zero 
+          - not_null 
+
+      - name: output_address
+        data_type: string
+        description: "The address of the whale that has sent more than 10 BTC in total."
+        data_tests:
+          - assert_not_valid_btc_address
+          - not_null
+    versions:
+      - v: 1
+        description: "Initial version of the whale_alert model. With USD conversion."
+        # matches above columns and data types
+
+      - v: 2
+        description: "Whate alert without conversion to USD. Only BTC amount."
+        # matches above columns and data types
+        columns:
+          - include: all
+            exclude: ["total_sent_usd"]
